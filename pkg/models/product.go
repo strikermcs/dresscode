@@ -1,14 +1,10 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type Product struct {
-	gorm.Model
+	Base
 	Name  		 string	
 	ProductModel string
-	Quantity  	 uint
+	Quantity  	 uint64
 	Price float32
 	OldPrice float32
 	Image string
@@ -17,7 +13,7 @@ type Product struct {
 }
 
 type ProductDescription struct {
-	gorm.Model
+	Base
 	BrendName string
 	ProductColor string
 	Material string
@@ -31,14 +27,14 @@ type ProductDescription struct {
 }
 
 type ProductSize struct {
-	gorm.Model
+	Base
 	Name string
 	Size string
 	ProductDescriptionID uint
 }
 
 type ProductImage struct {
-	gorm.Model
+	Base
 	Name string
 	Path string
 	ProductDescriptionID uint
