@@ -1,32 +1,18 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/strikermcs/dresscode/pkg/config"
+	"github.com/strikermcs/dresscode/pkg/controllers"
+	"github.com/strikermcs/dresscode/pkg/routes"
 )
 
 func main() {
 	app := fiber.New()
-
-	app.Get("/", GetStartPage)
-
+	db := config.GetDb()
+	controllers.InitDatabase(db)
+	routes.InitRoutes(app)
 	log.Fatal(app.Listen(":3000"))
-
-}
-
-type MainPageData struct{
-	Id uint `json:"id"`
-	Title string `json:"title"`
-	Body string `json:"body"`
-}
-
-func GetStartPage(c *fiber.Ctx) error {
-
-	data := MainPageData{
-		Id: 12345,
-		Title: "Hello World",
-		Body: "Lorem dogh",
-	}
-
-	return c.JSON(data)
 }

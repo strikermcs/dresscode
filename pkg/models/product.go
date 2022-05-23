@@ -6,11 +6,13 @@ import (
 
 type Product struct {
 	gorm.Model
-	Name string
+	Name  		 string	
 	ProductModel string
-	Quantity uint
+	Quantity  	 uint
 	Price float32
 	OldPrice float32
+	Image string
+	Code string
 	Description ProductDescription 
 }
 
@@ -23,11 +25,22 @@ type ProductDescription struct {
 	Sesson string
 	Сomposition string
 	Style string
+	ProductSizes []ProductSize
+	Images []ProductImage
 	ProductID uint
 }
 
 type ProductSize struct {
 	gorm.Model
 	Name string
-	
+	Size string
+	ProductDescriptionID uint
 }
+
+type ProductImage struct {
+	gorm.Model
+	Name string
+	Path string
+	ProductDescriptionID uint
+}
+
