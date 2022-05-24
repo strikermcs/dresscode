@@ -2,22 +2,24 @@ package controllers
 
 import (
 	"strconv"
-	"github.com/satori/go.uuid"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/satori/go.uuid"
 	"github.com/strikermcs/dresscode/pkg/config"
 	"github.com/strikermcs/dresscode/pkg/models"
+	"github.com/strikermcs/dresscode/pkg/utils"
 )	
 
 
 type Product struct {
-	ID uuid.UUID
-	Name string
-	ProductModel string
-	Quantity uint64
-	Price float32
-	Image string
-	Code string
-	OldPrice float32
+	ID				uuid.UUID 
+	Name 			string		`validate:"required,min=3"`
+	ProductModel 	string		`validate:"required,min=3,max=32"`
+	Quantity 		uint64		`validate:"required"`
+	Price 			float32		`validate:"required"`
+	Image 			string
+	Code 			string		`validate:"required,min=3,max=32"`
+	OldPrice 		float32		`validate:"required"`
 }
 
 func CreateProduct(c *fiber.Ctx) error {
@@ -28,6 +30,12 @@ func CreateProduct(c *fiber.Ctx) error {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             "message": err.Error()})
     }
+
+	errors := utils.ValidateStruct(*p)
+
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+	}
 
 	product := models.Product{Name: p.Name, ProductModel: p.ProductModel,
 		 Quantity: p.Quantity, Price: p.Price, Image: p.Image, Code: p.Code, OldPrice: p.OldPrice}
