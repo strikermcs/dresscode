@@ -3,7 +3,7 @@ package config
 import (
 	"log"
 
-	"github.com/strikermcs/dresscode/pkg/models"
+	// "github.com/strikermcs/dresscode/pkg/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -28,7 +28,7 @@ func ConnectDb() {
 
 	log.Println("Running Migrations")
 
-	db.AutoMigrate(&models.Product{}, &models.ProductDescription{}, &models.ProductImage{}, &models.ProductSize{})
+	// db.AutoMigrate(&models.Product{}, &models.ProductDescription{}, &models.ProductImage{}, &models.ProductSize{})
 	
 	Database = DbInstance{
 		Db: db,

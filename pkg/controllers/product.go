@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"strconv"
-
+	"github.com/satori/go.uuid"
 	"github.com/gofiber/fiber/v2"
 	"github.com/strikermcs/dresscode/pkg/config"
 	"github.com/strikermcs/dresscode/pkg/models"
@@ -10,7 +10,7 @@ import (
 
 
 type Product struct {
-	Id uint
+	ID uuid.UUID
 	Name string
 	ProductModel string
 	Quantity uint64
@@ -25,7 +25,8 @@ func CreateProduct(c *fiber.Ctx) error {
 	p := new(Product)
 	
 	if err := c.BodyParser(p); err != nil {
-        return c.Status(400).JSON(err.Error())
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "message": err.Error()})
     }
 
 	product := models.Product{Name: p.Name, ProductModel: p.ProductModel,
@@ -53,7 +54,7 @@ func GetProductById(c *fiber.Ctx) error {
 
 	product := new(Product)
 	
-	if err := config.Database.Db.First(&product, c.Params("id")).Error; err != nil {
+	if err := config.Database.Db.First(&product, "id = ?", c.Params("id")).Error; err != nil {
 		return c.Status(404).JSON("Error: Product not Found")
 	}
 
@@ -64,7 +65,7 @@ func PutBuyProduct(c *fiber.Ctx) error {
 
 	var product models.Product
 
-	if err := config.Database.Db.First(&product, c.Params("id")).Error; err != nil {
+	if err := config.Database.Db.First(&product, "id = ?", c.Params("id")).Error; err != nil {
 		return c.JSON("Error: Product not Found")
 	}
 
@@ -95,7 +96,7 @@ func UpdateProduct(c *fiber.Ctx) error {
     }
 
 	var product models.Product
-	if err := config.Database.Db.First(&product, p.Id).Error; err != nil {
+	if err := config.Database.Db.First(&product, "id = ?", p.ID).Error; err != nil {
 		return c.JSON("Error product not found")
 	}
     
@@ -116,7 +117,7 @@ func UpdateProduct(c *fiber.Ctx) error {
 } 
 
 func DeleteProduct(c *fiber.Ctx) error {
-	if err := config.Database.Db.Unscoped().Delete(&models.Product{}, c.Params("id")).Error; err != nil {
+	if err := config.Database.Db.Unscoped().Delete(&models.Product{}, "id = ?", c.Params("id")).Error; err != nil {
 		return c.JSON("error delete Product")
 	}
 	return c.JSON(c.Params("id"))
