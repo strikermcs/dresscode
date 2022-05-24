@@ -1,5 +1,13 @@
 package models
 
+import "github.com/satori/go.uuid"	
+
+type Group struct {
+	Base
+	Name 			string
+	Products 		[]Product			
+}
+
 type Product struct {
 	Base
 	Name  		 	string	
@@ -8,35 +16,36 @@ type Product struct {
 	Price 			float32
 	OldPrice 		float32
 	Image 			string
+	Sex 			string
 	Code 			string
-	Description 	ProductDescription 
+	GroupID 		uuid.UUID	
+	Description 	Description 
 }
 
-type ProductDescription struct {
+type Description struct {
 	Base
 	BrendName 		string
 	ProductColor 	string
 	Material 		string
-	Sex 			string
 	Sesson 			string
 	Сomposition 	string
 	Style 			string
-	ProductSizes 	[]ProductSize
-	Images 			[]ProductImage
-	ProductID 		uint
+	ProductSizes 	[]Size	`gorm:"many2many:description_sizes;"`
+	Images 			[]Image
+	ProductID 		uuid.UUID
 }
 
-type ProductSize struct {
+type Size struct {
 	Base
 	Name 					string
 	Size 					string
-	ProductDescriptionID 	uint
+	DescriptionID 			uuid.UUID
 }
 
-type ProductImage struct {
+type Image struct {
 	Base
 	Name 					string
 	Path 					string
-	ProductDescriptionID 	uint
+	DescriptionID 			uuid.UUID
 }
 
