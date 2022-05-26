@@ -20,6 +20,7 @@ type Product struct {
 	Image 			string
 	Code 			string		`validate:"required,min=3,max=32"`
 	OldPrice 		float32		`validate:"required"`
+	GroupID			uuid.UUID   `validate:"required"` 
 }
 
 func CreateProduct(c *fiber.Ctx) error {
@@ -38,7 +39,8 @@ func CreateProduct(c *fiber.Ctx) error {
 	}
 
 	product := models.Product{Name: p.Name, ProductModel: p.ProductModel,
-		 Quantity: p.Quantity, Price: p.Price, Image: p.Image, Code: p.Code, OldPrice: p.OldPrice}
+		 Quantity: p.Quantity, Price: p.Price, Image: p.Image, Code: p.Code, 
+		 OldPrice: p.OldPrice, GroupID: p.GroupID}
 
 	config.Database.Db.Create(&product)
 

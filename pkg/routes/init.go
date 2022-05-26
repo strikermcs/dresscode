@@ -6,4 +6,5 @@ import (
 
 func InitRoutes(r *fiber.App){
 	ProductRoutesInit(r)
+	GroupsRouterInit(r)
 }
