@@ -1,17 +1,34 @@
 <template>
   <v-app :style="{background: $vuetify.theme.themes.dark.background}">
-    <Home />
+    <TheSideBar />
+    <TheNavBar />
+     <v-container fluid>
+          <router-view />
+     </v-container>
   </v-app>
 </template>
 
 <script>
-import Home from './views/Home.vue'
+import TheSideBar from './components/TheSidebar.vue'
+import TheNavBar from './components/TheNavBar.vue'
 
 export default {
   name: 'App',
 
   components: {
-    Home
+    TheSideBar,
+    TheNavBar
   }
 }
 </script>
+
+<style>
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;
+}
+</style>

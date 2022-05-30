@@ -18,7 +18,8 @@ export default createVuetify({
   theme: {
     themes: {
       dark: {
-        background: '#2A3243'
+        background: '#2A3243',
+        primary: '#F34F64',
       }
     } 
   }
